@@ -1,0 +1,8 @@
+# editor and OS files; everything else here is build output from the Force repo (site/tools/build.py)
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+node_modules/
