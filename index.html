@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Force — Clanker Code Cuck Chair</title>
+<meta name="description" content="Force keeps your AI coding agent sessions running and shows them all in one terminal. One line to install, nothing to set up.">
+<meta property="og:title" content="Force — Clanker Code Cuck Chair">
+<meta property="og:description" content="Every coding agent you run, in one terminal.">
+<meta property="og:image" content="media/brag.jpg">
+<meta property="og:video" content="media/brag.mp4">
+<meta name="theme-color" content="#161616">
+<link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="mark" href="./" aria-label="Force home">FORCE</a>
+    <nav aria-label="Sections">
+      <a href="#cockpit">Cockpit</a>
+      <a href="#features">Features</a>
+      <a href="#commands">Commands</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero" aria-labelledby="pitch">
+  <p class="badge"><span class="chip">4C</span> Clanker Code Cuck Chair</p>
+  <h1 id="pitch">Every coding agent you run, in one terminal.</h1>
+  <p class="sub">Force keeps your Claude Code and OpenCode sessions running on your machine or a server,
+     whether a terminal is open or not, and tells you which one needs you.</p>
+
+  <div class="install">
+    <code id="install-line"><span class="prompt" aria-hidden="true">$</span> curl -fsSL https://zalandemeter.github.io/install.sh | sh</code>
+    <button type="button" class="copy" data-copy="install-line">Copy</button>
+  </div>
+  <p class="after">Then type <code>force</code>. Linux, x86-64. No root, no packages, no config files.</p>
+
+  <figure class="stage">
+    <video id="film" poster="media/brag.jpg" muted loop playsinline preload="auto"
+           aria-label="Seven terminal windows collapse into Force's sidebar; a session asking for permission is opened with one click; the terminal closes and the agents keep working; a man in a suit sits back in a leather chair; the install line types out.">
+      <source src="media/brag.webm" type="video/webm">
+      <source src="media/brag.mp4" type="video/mp4">
+    </video>
+  </figure>
+</section>
+
+<section id="cockpit" class="cockpit" aria-labelledby="cockpit-h">
+  <div class="intro">
+    <h2 id="cockpit-h">One window. Every session.</h2>
+    <p>The sidebar is the whole picture: seven sessions on one machine, one waiting for a permission, one
+       finished since you last looked, two at work. This is Force itself, as text, not a screenshot.</p>
+  </div>
+  <div class="shot">
+    <div class="term-wrap" tabindex="0" aria-label="Force's window: sidebar with seven sessions, a header with two alerts, and a Claude Code session">
+      <pre class="term"><span style="background:#212121">  </span><span style="color:#212121;background:#212121">                           │                                                                                                                        </span>
+<span style="background:#212121">  </span><span style="color:#d97757;background:#d97757">▀</span><span style="color:#da7a5a;background:#212121">▀</span><span style="color:#db7d5d;background:#212121">▀</span><span style="color:#dc8061;background:#212121">▀</span><span style="color:#212121;background:#212121">▀</span><span style="color:#212121;background:#df8767">▀</span><span style="color:#e08a6b;background:#212121">▀</span><span style="color:#e18d6e;background:#212121">▀</span><span style="color:#212121;background:#e39171">▀</span><span style="color:#212121;background:#212121">▀</span><span style="color:#e59778;background:#e59778">▀</span><span style="color:#e69a7b;background:#212121">▀</span><span style="color:#e89e7f;background:#212121">▀</span><span style="color:#212121;background:#e9a182">▀</span><span style="color:#212121;background:#212121">▀</span><span style="color:#212121;background:#eba789">▀</span><span style="color:#edab8c;background:#212121">▀</span><span style="color:#eeae8f;background:#212121">▀</span><span style="color:#efb193;background:#212121">▀</span><span style="color:#212121;background:#212121">▀</span><span style="color:#f2b899;background:#f2b899">▀</span><span style="color:#f3bb9d;background:#212121">▀</span><span style="color:#f4bea0;background:#212121">▀</span><span style="color:#f6c2a4;background:#212121">▀</span><span style="color:#212121;background:#212121">▀▀▀│ </span><span style="color:#3c3c3c;background:#212121">─</span><span style="color:#c6c6c6;background:#212121"> <span class="nf"></span>  </span><span style="color:#3c3c3c;background:#212121">─</span><span style="color:#f2f2f2;background:#212121"> </span><span style="color:#f2f2f2;background:#212121;font-weight:700">api</span><span style="color:#f2f2f2;background:#212121"> </span><span style="color:#d97757;background:#212121;font-weight:700">✻</span><span style="color:#c6c6c6;background:#212121"> claude </span><span style="color:#6c6c6c;background:#212121">· sonnet 4.6 · high · </span><span style="color:#af87ff;background:#212121">accept edits </span><span style="color:#3c3c3c;background:#212121">──────</span><span style="color:#e8806f;background:#212121"> </span><span style="color:#e8806f;background:#212121;font-weight:700"><span class="nf"></span></span><span style="color:#e8806f;background:#212121">  </span><span style="color:#e8806f;background:#212121;font-weight:700">billing-fix</span><span style="color:#e8806f;background:#212121"> </span><span style="color:#3c3c3c;background:#212121">─</span><span style="color:#a7d4ad;background:#212121"> </span><span style="color:#a7d4ad;background:#212121;font-weight:700"><span class="nf"></span></span><span style="color:#a7d4ad;background:#212121">  </span><span style="color:#a7d4ad;background:#212121;font-weight:700">docs-site</span><span style="color:#a7d4ad;background:#212121"> </span><span style="color:#3c3c3c;background:#212121">─</span><span style="color:#d7af5f;background:#212121"> <span class="nf">󰪤</span>  1 working </span><span style="color:#3c3c3c;background:#212121">─</span><span style="color:#c6c6c6;background:#212121"> <span class="nf"></span>  </span><span style="color:#3c3c3c;background:#212121">─</span><span style="color:#c6c6c6;background:#212121"> <span class="nf"></span>  </span><span style="color:#3c3c3c;background:#212121">─</span><span style="color:#212121;background:#212121"> </span>
+<span style="background:#212121">  </span><span style="color:#d97757;background:#d97757">▀</span><span style="color:#da7a5a;background:#212121">▀</span><span style="color:#db7d5d;background:#212121">▀</span><span style="color:#212121;background:#212121">▀▀</span><span style="color:#df8767;background:#df8767">▀</span><span style="color:#212121;background:#212121">▀▀</span><span style="color:#e39171;background:#e39171">▀</span><span style="color:#212121;background:#212121">▀</span><span style="color:#e59778;background:#e59778">▀</span><span style="color:#e69a7b;background:#212121">▀</span><span style="color:#e89e7f;background:#e89e7f">▀</span><span style="color:#212121;background:#212121">▀▀</span><span style="color:#eba789;background:#eba789">▀</span><span style="color:#212121;background:#212121">▀▀▀▀</span><span style="color:#f2b899;background:#f2b899">▀</span><span style="color:#f3bb9d;background:#212121">▀</span><span style="color:#f4bea0;background:#212121">▀</span><span style="color:#212121;background:#212121">▀▀▀▀├────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span style="background:#212121">  </span><span style="color:#d97757;background:#212121">▀</span><span style="color:#212121;background:#212121">▀▀▀▀▀</span><span style="color:#e08a6b;background:#212121">▀</span><span style="color:#e18d6e;background:#212121">▀</span><span style="color:#212121;background:#212121">▀▀</span><span style="color:#e59778;background:#212121">▀</span><span style="color:#212121;background:#212121">▀▀</span><span style="color:#e9a182;background:#212121">▀</span><span style="color:#212121;background:#212121">▀▀</span><span style="color:#edab8c;background:#212121">▀</span><span style="color:#eeae8f;background:#212121">▀</span><span style="color:#efb193;background:#212121">▀</span><span style="color:#212121;background:#212121">▀</span><span style="color:#f2b899;background:#212121">▀</span><span style="color:#f3bb9d;background:#212121">▀</span><span style="color:#f4bea0;background:#212121">▀</span><span style="color:#f6c2a4;background:#212121">▀</span><span style="color:#212121;background:#212121">▀▀▀│</span>                                                                                                                        
+<span style="background:#212121">  </span><span style="color:#a8553a;background:#212121">▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔</span><span style="color:#212121;background:#212121">│</span><span style="color:#87d787">●</span> <span style="font-weight:700">Update</span>(server.py)                                                                                                     
+<span style="background:#212121">  </span><span style="color:#212121;background:#d97757;font-weight:700">4C</span><span style="color:#d97757;background:#212121">▌</span><span style="color:#9a9a9a;background:#212121">Clanker Code Cuck Chair</span><span style="color:#212121;background:#212121"> │</span><span style="color:#949494">  └  </span>Added <span style="font-weight:700">2</span> lines                                                                                                      
+<span style="background:#212121">  </span><span style="color:#212121;background:#212121">                           │</span>     <span style="color:#ffffff;opacity:.62">  9 </span><span style="color:#ffffff">     </span><span style="color:#5fd7ff">def</span><span style="color:#ffffff"> </span><span style="color:#afd700">do_GET</span><span style="color:#ffffff">(</span><span style="color:#ff8700">self</span><span style="color:#ffffff">):</span>                                                                                         
+<span style="color:#212121;background:#212121"> </span><span style="color:#3c3c3c;background:#212121">─</span><span style="color:#f6c2a4;background:#212121"> sessions 7 </span><span style="color:#3c3c3c;background:#212121">──────────────</span><span style="color:#212121;background:#212121"> │</span>     <span style="color:#ffffff;opacity:.62"> 10 </span><span style="color:#ffffff">         </span><span style="color:#ff005f">if</span><span style="color:#ffffff"> self.path == </span><span style="color:#d7d787">&quot;/todos&quot;</span><span style="color:#ffffff">:</span>                                                                             
+<span style="color:#212121;background:#212121"> </span><span style="color:#4e4e4e;background:#212121">▍</span><span style="color:#212121;background:#212121"> </span><span style="color:#808080;background:#212121"><span class="nf"></span>  </span><span style="color:#c6c6c6;background:#212121">shell</span><span style="color:#212121;background:#212121">               </span><span style="color:#808080;background:#212121">3h</span><span style="color:#212121;background:#212121"> │</span>     <span style="color:#ffffff;opacity:.62"> 11 </span><span style="color:#ffffff">             self._send(</span><span style="color:#af87ff">200</span><span style="color:#ffffff">, TODOS)</span>                                                                            
+<span style="color:#212121;background:#212121"> </span><span style="color:#4e4e4e;background:#212121">▍</span><span style="color:#808080;background:#212121">    shell ~</span><span style="color:#212121;background:#212121">                │</span>     <span style="color:#5fd75f;background:#005f00"> 12 +</span><span style="color:#ffffff;background:#005f00">        </span><span style="color:#ff005f;background:#005f00">elif</span><span style="color:#ffffff;background:#005f00"> self.path == </span><span style="color:#d7d787;background:#005f00">&quot;/health&quot;</span><span style="color:#ffffff;background:#005f00">:                                                                   </span>       
+<span style="color:#212121;background:#212121"> </span><span style="color:#d97757;background:#2c2c2c">▍</span><span style="color:#212121;background:#2c2c2c"> </span><span style="color:#808080;background:#2c2c2c"><span class="nf"></span>  </span><span style="color:#ffffff;background:#2c2c2c">api</span><span style="color:#212121;background:#2c2c2c">                 </span><span style="color:#808080;background:#2c2c2c">1m</span><span style="color:#212121;background:#212121"> │</span>     <span style="color:#5fd75f;background:#005f00"> 13 +</span><span style="color:#ffffff;background:#005f00">            self._send(</span><span style="color:#af87ff;background:#005f00">200</span><span style="color:#ffffff;background:#005f00">, {</span><span style="color:#d7d787;background:#005f00">&quot;ok&quot;</span><span style="color:#ffffff;background:#005f00">: </span><span style="color:#af87ff;background:#005f00">True</span><span style="color:#ffffff;background:#005f00">})                                                              </span>       
+<span style="color:#212121;background:#212121"> </span><span style="color:#d97757;background:#2c2c2c">▍</span><span style="color:#808080;background:#2c2c2c">    </span><span style="color:#707070;background:#2c2c2c">idle</span><span style="color:#212121;background:#2c2c2c">                  </span><span style="color:#212121;background:#212121"> │</span>     <span style="color:#ffffff;opacity:.62"> 14 </span><span style="color:#ffffff">         </span><span style="color:#ff005f">else</span><span style="color:#ffffff">:</span>                                                                                                 
+<span style="color:#212121;background:#212121"> </span><span style="color:#e8806f;background:#212121">▍</span><span style="color:#212121;background:#212121"> </span><span style="color:#e8806f;background:#212121;font-weight:700"><span class="nf"></span></span><span style="color:#e8806f;background:#212121">  </span><span style="color:#c6c6c6;background:#212121">billing-fix</span><span style="color:#212121;background:#212121">         </span><span style="color:#808080;background:#212121">1m</span><span style="color:#212121;background:#212121"> │</span>     <span style="color:#ffffff;opacity:.62"> 15 </span><span style="color:#ffffff">             self._send(</span><span style="color:#af87ff">404</span><span style="color:#ffffff">, {</span><span style="color:#d7d787">&quot;error&quot;</span><span style="color:#ffffff">: </span><span style="color:#d7d787">&quot;not found&quot;</span><span style="color:#ffffff">})</span>                                                           
+<span style="color:#212121;background:#212121"> </span><span style="color:#e8806f;background:#212121">▍</span><span style="color:#808080;background:#212121">    </span><span style="color:#e8806f;background:#212121;font-weight:700">needs permission</span><span style="color:#212121;background:#212121">       │</span>     <span style="color:#ffffff;opacity:.62"> 16 </span><span style="color:#ffffff"> </span>                                                                                                              
+<span style="color:#212121;background:#212121"> </span><span style="color:#87c08f;background:#212121">▍</span><span style="color:#212121;background:#212121"> </span><span style="color:#87c08f;background:#212121;font-weight:700"><span class="nf"></span></span><span style="color:#87c08f;background:#212121">  </span><span style="color:#c6c6c6;background:#212121">docs-site</span><span style="color:#212121;background:#212121">           </span><span style="color:#808080;background:#212121">6m</span><span style="color:#212121;background:#212121"> │</span>                                                                                                                        
+<span style="color:#212121;background:#212121"> </span><span style="color:#87c08f;background:#212121">▍</span><span style="color:#808080;background:#212121">    </span><span style="color:#517355;background:#212121">your turn</span><span style="color:#212121;background:#212121">              │</span>  <span style="color:#949494">Ran </span><span style="color:#949494;font-weight:700">1</span><span style="color:#949494"> shell command </span>                                                                                                  
+<span style="color:#212121;background:#212121"> </span><span style="color:#4e4e4e;background:#212121">▍</span><span style="color:#212121;background:#212121"> </span><span style="color:#808080;background:#212121"><span class="nf"></span>  </span><span style="color:#c6c6c6;background:#212121">infra</span><span style="color:#212121;background:#212121">              </span><span style="color:#808080;background:#212121">42m</span><span style="color:#212121;background:#212121"> │</span>                                                                                                                        
+<span style="color:#212121;background:#212121"> </span><span style="color:#4e4e4e;background:#212121">▍</span><span style="color:#808080;background:#212121">    </span><span style="color:#707070;background:#212121">idle</span><span style="color:#212121;background:#212121">                   │</span><span style="color:#ffffff">●</span> I added <span style="color:#afd7ff">GET /health</span> to <span style="color:#afd7ff">server.py</span>. It returns <span style="color:#afd7ff">{&quot;ok&quot;: true}</span> with a 200, and every other path still gets the 404.        
+<span style="color:#212121;background:#212121"> </span><span style="color:#d7af5f;background:#212121">▍</span><span style="color:#212121;background:#212121"> </span><span style="color:#d7af5f;background:#212121"><span class="nf">󰪤</span>  </span><span style="color:#c6c6c6;background:#212121">mobile</span><span style="color:#212121;background:#212121">              </span><span style="color:#808080;background:#212121">1m</span><span style="color:#212121;background:#212121"> │</span>                                                                                                                        
+<span style="color:#212121;background:#212121"> </span><span style="color:#d7af5f;background:#212121">▍</span><span style="color:#808080;background:#212121">    </span><span style="color:#a6894d;background:#212121">running a command</span><span style="color:#212121;background:#212121">      │</span>  I ran the server and checked three requests:                                                                          
+<span style="color:#212121;background:#212121"> </span><span style="color:#4e4e4e;background:#212121">▍</span><span style="color:#212121;background:#212121"> </span><span style="color:#5f5f5f;background:#212121"><span class="nf"></span>  </span><span style="color:#c6c6c6;background:#212121">migration-2024</span><span style="color:#212121;background:#212121">     </span><span style="color:#808080;background:#212121">30h</span><span style="color:#212121;background:#212121"> │</span>  - <span style="color:#afd7ff">/health</span> returned <span style="color:#afd7ff">{&quot;ok&quot;: true}</span> with 200.                                                                             
+<span style="color:#212121;background:#212121"> </span><span style="color:#4e4e4e;background:#212121">▍</span><span style="color:#808080;background:#212121">    </span><span style="color:#707070;background:#212121">stale</span><span style="color:#212121;background:#212121">                  │</span>  - <span style="color:#afd7ff">/todos</span> still returned its list with 200.                                                                            
+<span style="color:#212121;background:#212121">                             │</span>  - <span style="color:#afd7ff">/nope</span> returned <span style="color:#afd7ff">{&quot;error&quot;: &quot;not found&quot;}</span> with 404.                                                                     
+<span style="color:#212121;background:#212121"> </span><span style="color:#808080;background:#212121">  <span class="nf"></span>  new</span><span style="color:#212121;background:#212121">  </span><span style="color:#808080;background:#212121">   <span class="nf"></span>  archived 0</span><span style="color:#212121;background:#212121">  │</span>                                                                                                                        
+<span style="color:#212121;background:#212121"> </span><span style="color:#3c3c3c;background:#212121">───────────────────────────</span><span style="color:#212121;background:#212121"> │</span>  The change is one <span style="color:#afd7ff">elif</span> in <span style="color:#afd7ff">do_GET</span>. I didn&#x27;t commit it.                                                                 
+<span style="color:#212121;background:#212121">                             │</span>                                                                                                                        
+<span style="color:#212121;background:#212121">                             │</span><span style="color:#949494">✻</span> <span style="color:#949494">Sautéed for 8s · done 12:10 PM</span>                                                                                        
+<span style="color:#212121;background:#212121">                             │</span>                                                                                                                        
+<span style="color:#212121;background:#212121">                             │</span><span style="color:#949494;background:#3a3a3a">❯ </span><span style="color:#ffffff;background:#3a3a3a">commit it with a short message</span>                                                                                        
+<span style="color:#212121;background:#212121">                             │</span>                                                                                                                        
+<span style="color:#212121;background:#212121">                             │</span>  <span style="color:#949494">Ran </span><span style="color:#949494;font-weight:700">1</span><span style="color:#949494"> shell command </span>                                                                                                  
+<span style="color:#212121;background:#212121">                             │</span>                                                                                                                        
+<span style="color:#212121;background:#212121">                             │</span><span style="color:#ffffff">●</span> Committed on <span style="color:#afd7ff">master</span> as <span style="color:#afd7ff">97b764d</span> (&quot;Add /health endpoint returning {&quot;ok&quot;: true}&quot;). The working tree is clean.            
+<span style="color:#212121;background:#212121">                             │</span>                                                                                                                        
+<span style="color:#212121;background:#212121">                             │</span><span style="color:#949494">✻</span> <span style="color:#949494">Cogitated for 2s · done 12:15 PM</span>                                                                                      
+<span style="color:#212121;background:#212121"> </span><span style="color:#3c3c3c;background:#212121">─</span><span style="color:#808080;background:#212121"> limits </span><span style="color:#3c3c3c;background:#212121">──────────────────</span><span style="color:#212121;background:#212121"> │</span>                                                                                                                        
+<span style="color:#212121;background:#212121">  </span><span style="color:#808080;background:#212121">5h</span><span style="color:#212121;background:#212121"> </span><span style="color:#87c08f;background:#212121">■</span><span style="color:#92bd88;background:#212121">■</span><span style="color:#9dbb81;background:#212121">■</span><span style="color:#a9b87a;background:#212121">■</span><span style="color:#3a3a3a;background:#212121">■■■■■■■</span><span style="color:#212121;background:#212121"> </span><span style="color:#c6c6c6;background:#212121"> 34%</span><span style="color:#212121;background:#212121">  </span><span style="color:#6c6c6c;background:#212121">19:44</span><span style="color:#212121;background:#212121"> │</span><span style="color:#808080">────────────────────────────────────────────────────────────────────────────────────────────────────────────────── api ─</span>
+<span style="color:#212121;background:#212121">  </span><span style="color:#808080;background:#212121">wk</span><span style="color:#212121;background:#212121"> </span><span style="color:#87c08f;background:#212121">■</span><span style="color:#92bd88;background:#212121">■</span><span style="color:#3a3a3a;background:#212121">■■■■■■■■■</span><span style="color:#212121;background:#212121"> </span><span style="color:#c6c6c6;background:#212121"> 18%</span><span style="color:#212121;background:#212121">  </span><span style="color:#6c6c6c;background:#212121">Sun</span><span style="color:#212121;background:#212121">   │</span>❯ <span style="opacity:.62">push it</span>                                                                                                               
+<span style="color:#212121;background:#212121"> </span><span style="color:#3c3c3c;background:#212121">───────────────────────────</span><span style="color:#212121;background:#212121"> │</span><span style="color:#808080">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span style="color:#212121;background:#212121"> </span><span style="color:#a8a8a8;background:#303030"> </span><span style="color:#d97757;background:#303030"><span class="nf"></span></span><span style="color:#a8a8a8;background:#303030">  devbox  </span><span style="color:#212121;background:#212121">                │</span>  <span style="color:#afafff">▶▶ accept edits on</span><span style="color:#949494"> (shift+tab to cycle)</span>                                                                               </pre>
+    </div>
+  </div>
+  <dl class="legend">
+    <div><dt class="g-need">!</dt><dd>needs you</dd></div>
+    <div><dt class="g-work">◐</dt><dd>working</dd></div>
+    <div><dt class="g-turn">●</dt><dd>your turn</dd></div>
+    <div><dt class="g-idle">○</dt><dd>idle</dd></div>
+    <div><dt class="g-stale">◌</dt><dd>untouched for 12 hours</dd></div>
+  </dl>
+</section>
+
+<section id="features" class="facts" aria-labelledby="facts-h">
+  <h2 id="facts-h">Sit back. Force keeps watch.</h2>
+  <dl>
+    <div><dt><span class="g-work" aria-hidden="true">◐</span> Sessions keep running</dt>
+      <dd>Close the terminal, log out, lose the connection: the agents carry on. A crashed one is restarted and
+          picks up its conversation.</dd></div>
+    <div><dt><span class="g-need" aria-hidden="true">!</span> You see who needs you</dt>
+      <dd>A permission prompt or a question in any session shows up in the sidebar and as a pill above the agent.
+          One click takes you there.</dd></div>
+    <div><dt><span class="g-turn" aria-hidden="true">●</span> Any terminal</dt>
+      <dd>Force paints its own theme. GNOME Terminal, Konsole, kitty, Tilix, an ssh login: type
+          <code>force</code> and it looks the same.</dd></div>
+    <div><dt><span class="g-idle" aria-hidden="true">○</span> Several machines</dt>
+      <dd>Add a server with <code>force host add</code>; its sessions sit one click away from your laptop's.</dd></div>
+    <div><dt><span class="g-turn" aria-hidden="true">●</span> Your phone</dt>
+      <dd>Every session is reachable from the Claude app under the name it has in Force, renames included.</dd></div>
+    <div><dt><span class="g-stale" aria-hidden="true">◌</span> The sessions you already have</dt>
+      <dd><code>force import</code> lists your earlier conversations and takes over the one you pick, with its
+          history.</dd></div>
+  </dl>
+</section>
+
+<section id="commands" class="commands" aria-labelledby="commands-h">
+  <h2 id="commands-h">The commands you will use.</h2>
+  <table>
+    <tbody>
+      <tr><th scope="row"><code>force</code></th><td>Open the cockpit. Ctrl+Space opens the menu inside it.</td></tr>
+      <tr><th scope="row"><code>force new NAME</code></th><td>Start a session in the current folder.</td></tr>
+      <tr><th scope="row"><code>force import</code></th><td>List sessions Force doesn't manage yet; <code>force import ID</code> takes one over.</td></tr>
+      <tr><th scope="row"><code>force host add NAME</code></th><td>Add another machine you reach with ssh.</td></tr>
+      <tr><th scope="row"><code>force settings</code></th><td>Show settings; <code>force settings set KEY VALUE</code> changes one.</td></tr>
+      <tr><th scope="row"><code>force update</code></th><td>Install the newest release. Sessions keep running.</td></tr>
+      <tr><th scope="row"><code>force uninstall</code></th><td>Remove Force; your conversations stay.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="last" aria-labelledby="last-h">
+  <h2 id="last-h">Take a seat.</h2>
+  <div class="install">
+    <code id="install-line-2"><span class="prompt" aria-hidden="true">$</span> curl -fsSL https://zalandemeter.github.io/install.sh | sh</code>
+    <button type="button" class="copy" data-copy="install-line-2">Copy</button>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <p>Force is open source under the MIT licence; the source and releases go up with the first public release.
+     An independent project, not affiliated with Anthropic or the makers of OpenCode.</p>
+</footer>
+
+<script src="site.js" defer></script>
+</body>
+</html>
