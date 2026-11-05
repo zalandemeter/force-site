@@ -12,7 +12,7 @@ python3 site/tools/build.py ../force-site   # from the Force repo, then commit a
 | Path | What |
 |---|---|
 | `index.html`, `style.css`, `site.js` | the page; the cockpit picture is inlined text, not an image |
-| `media/` | the 28-second film (MP4, WebM) and its poster |
+| `media/` | the 28.5-second film (MP4, WebM) and its poster |
 | `fonts/` | self-hosted fonts, each with its licence file next to it |
 
 ## Licence
