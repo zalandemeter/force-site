@@ -95,7 +95,7 @@ h1 {
 .after code { color: var(--text); }
 
 /* the window: a real Force screen as text, in a plain Linux title bar */
-.window { margin: clamp(48px, 6vw, 72px) 0 0; position: relative; }
+.window { margin: 0; position: relative; }
 .window::before {  /* the warm light the window sits in */
   content: ""; position: absolute; inset: -12% -6% -18%; z-index: -1; pointer-events: none;
   background: radial-gradient(ellipse 50% 50% at 50% 45%, rgba(217, 119, 87, .16), transparent 70%);
@@ -120,14 +120,12 @@ h1 {
 .term .nf { display: inline-block; width: var(--cw); font-family: "Force Symbols"; white-space: pre;
                        vertical-align: top; position: relative; z-index: 1; }
 
-/* the place under the pointer (or the keyboard's session), and the gentle call on the session that needs you */
-.ring, .call { position: absolute; z-index: 2; pointer-events: none; border-radius: 4px; opacity: 0;
-               transition: opacity .18s, top .18s var(--ease), left .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
-.ring { background: rgba(255, 255, 255, .05); box-shadow: inset 0 0 0 1px rgba(246, 194, 164, .45); }
-.ring.on { opacity: 1; }
+/* the gentle call on the session that needs you, until it is opened; Force's menu laid over the screen */
+.call { position: absolute; z-index: 2; pointer-events: none; border-radius: 4px; top: calc(7 * var(--lh)); left: var(--cw); width: calc(28 * var(--cw)); height: calc(2 * var(--lh));
+        animation: call 2.4s var(--ease) 1.6s infinite; }
 .screen.pointing { cursor: pointer; }
-.call { top: calc(7 * var(--lh)); left: var(--cw); width: calc(28 * var(--cw)); height: calc(2 * var(--lh));
-        animation: call 2.4s var(--ease) 1.6s infinite; opacity: 1; }
+.term.menu { position: absolute; top: 0; left: 0; z-index: 3; }
+.term.menu[hidden] { display: none; }
 .call.done { display: none; }
 @keyframes call {
   0%   { box-shadow: 0 0 0 0 rgba(240, 100, 94, .0); }
@@ -149,12 +147,13 @@ h1 {
 
 /* --- sections -------------------------------------------------------------------------------------------- */
 main > section + section { padding-top: clamp(110px, 14vw, 180px); }
+main > .try { padding-top: clamp(64px, 8vw, 112px); }
 h2 { margin: 0; font-weight: 750; font-stretch: 114%; font-size: clamp(1.85rem, 3.6vw, 2.9rem);
      line-height: 1.04; letter-spacing: -.018em; color: #fff; text-wrap: balance; }
 h3 { margin: 0 0 .45em; font-weight: 700; font-stretch: 110%; font-size: clamp(1.25rem, 1.9vw, 1.5rem);
      line-height: 1.15; letter-spacing: -.01em; color: #fff; }
 
-.stage { position: relative; margin: clamp(36px, 5vw, 56px) 0 0; aspect-ratio: 16 / 9; border-radius: 14px;
+.stage { position: relative; margin: clamp(48px, 6vw, 72px) 0 0; aspect-ratio: 16 / 9; border-radius: 14px;
          overflow: hidden; background: #000;
          box-shadow: 0 0 0 1px var(--rule), 0 50px 140px rgba(0, 0, 0, .7); }
 .stage video { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -166,10 +165,6 @@ h3 { margin: 0 0 .45em; font-weight: 700; font-stretch: 110%; font-size: clamp(1
              border-left: 4px solid #eee; border-right: 4px solid #eee; }          /* pause */
 .play.paused span { width: 0; height: 0; border: 0; margin-left: 15px;
                     border-left: 12px solid #eee; border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
-
-/* the film: wide, nothing around it */
-.film { width: min(1440px, 100% - 2 * var(--gutter)) !important; }
-.film .stage { margin-top: 0; }
 
 /* six facts: a state glyph, a name, one sentence */
 .facts h2 { font-size: clamp(2.1rem, 4.6vw, 3.7rem); max-width: 14ch; }
@@ -224,5 +219,4 @@ h3 { margin: 0 0 .45em; font-weight: 700; font-stretch: 110%; font-size: clamp(1
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .rise, .call { animation: none; }
-  .ring { transition: none; }
 }

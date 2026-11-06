@@ -21,14 +21,24 @@
       "archived": "Archived sessions wait here with their conversations, out of the list.",
       "host": "devbox is this machine. force host add NAME puts another one here, one click away.",
       "limits": "Your five-hour and weekly limits: how much is used, and when each resets.",
-      "menu": "Ctrl+Space opens Force's menu: x restarts a session, a archives it.",
+      "menu": "Force's menu. Ctrl+Space opens it anywhere in Force; every item has its key on the right.",
       "quit": "Quit closes the window. The sessions keep running; type force to come back.",
       "sidebar": "Hides the sidebar when you want the whole width for the agent."
     };
     var PILL = { "rgb(240, 100, 94)": "billing-fix", "rgb(167, 212, 173)": "docs-site", "rgb(215, 175, 95)": "mobile" };
     var ICON = { "": "sidebar", "": "menu", "": "quit" };
     var hint = document.querySelector(".hint");
-    var ring = screen.querySelector(".ring");
+    var ITEM = {
+      "Restart": "Restart starts the agent again, and it picks up its conversation.",
+      "Archive": "Archive takes the session out of the list; its conversation stays.",
+      "Sidebar on / off": "Hides the sidebar when you want the whole width for the agent.",
+      "Quit (sessions keep running)": "Quit closes the window. The sessions keep running; type force to come back.",
+      "Help": "Help lists every key; each menu item shows its own on the right.",
+      "Upgrade now": "Upgrade now installs the newest release. The sessions keep running.",
+      "Restart all sessions": "Restart all sessions starts every agent again, each with its conversation."
+    };
+    var menuOpen = false;
+    var previous = "api";
     var call = screen.querySelector(".call");
     var current = "api";
 
@@ -69,41 +79,73 @@
       }
       return null;
     };
-    var place = function (t) {
-      if (!t) { ring.classList.remove("on"); return; }
-      ring.style.top = "calc(" + t.r + " * var(--lh))"; ring.style.left = "calc(" + t.c + " * var(--cw))";
-      ring.style.width = "calc(" + t.w + " * var(--cw))"; ring.style.height = "calc(" + t.h + " * var(--lh))";
-      ring.classList.add("on");
+    var menu = function (open) {
+      menuOpen = open;
+      screen.querySelectorAll(".term.menu").forEach(function (t) { t.hidden = !open || t.dataset.menu !== current; });
     };
     var show = function (name) {
+      if (name !== current) previous = current;
       current = name;
       screen.dataset.screen = name;
-      screen.querySelectorAll(".term").forEach(function (t) { t.hidden = t.dataset.view !== name; });
+      screen.querySelectorAll(".term[data-view]").forEach(function (t) { t.hidden = t.dataset.view !== name; });
       if (name === "billing-fix") call.classList.add("done");
     };
     var act = function (t) {
       if (!t) return;
       if (t.go) { show(t.go); hint.textContent = SAY[t.go]; }
+      else if (t.say === "menu") { menu(true); hint.textContent = SAY.menu; }
       else hint.textContent = SAY[t.say];
     };
-    var at = function (e) {
+    // a menu item: "│ Label   (key) │" on that row of the open menu
+    var item = function (row, col) {
+      var open = screen.querySelector(".term.menu:not([hidden])");
+      var line = Array.from(open.textContent.split("\n")[row] || "");
+      var l = line.indexOf("│"), r = line.lastIndexOf("│");
+      if (l < 0 || r <= l || col < l || col > r) return { outside: true };
+      var m = /^ (.+?)\s+\((\S+)\) $/.exec(line.slice(l + 1, r).join(""));
+      return m ? { label: m[1], key: m[2] } : {};
+    };
+    var choose = function (it) {
+      menu(false);
+      if (!it || !it.label) return;
+      if (it.label === "Previous session") { var p = previous; show(p); hint.textContent = SAY[p]; return; }
+      var name = it.label.replace("…", "");
+      hint.textContent = ITEM[name] || (it.label.slice(-1) === "…" ? name + " opens a small dialog in Force." : name + ".");
+    };
+    var cellOf = function (e) {
       var m = metrics();
-      var col = Math.floor((e.clientX - m.x) / m.cw), row = Math.floor((e.clientY - m.y) / m.lh);
-      return row >= 0 && row < 40 && col >= 0 && col < 150 ? target(m, row, col) : null;
+      return { m: m, col: Math.floor((e.clientX - m.x) / m.cw), row: Math.floor((e.clientY - m.y) / m.lh) };
+    };
+    var at = function (e) {
+      var c = cellOf(e);
+      return c.row >= 0 && c.row < 40 && c.col >= 0 && c.col < 150 ? target(c.m, c.row, c.col) : null;
     };
     screen.addEventListener("mousemove", function (e) {
-      var t = at(e);
-      screen.classList.toggle("pointing", !!t);
-      place(t);
+      if (menuOpen) { var c = cellOf(e); screen.classList.toggle("pointing", !!item(c.row, c.col).label); return; }
+      screen.classList.toggle("pointing", !!at(e));
     });
-    screen.addEventListener("mouseleave", function () { screen.classList.remove("pointing"); place(null); });
-    screen.addEventListener("click", function (e) { act(at(e)); });
+    screen.addEventListener("mouseleave", function () { screen.classList.remove("pointing"); });
+    screen.addEventListener("click", function (e) {
+      if (menuOpen) { var c = cellOf(e); choose(item(c.row, c.col)); return; }
+      act(at(e));
+    });
     wrap.addEventListener("keydown", function (e) {
+      if (e.key === " " && e.ctrlKey) { e.preventDefault(); if (menuOpen) menu(false); else act({ say: "menu" }); return; }
+      if (menuOpen) {
+        e.preventDefault();
+        if (e.key === "Escape") { menu(false); return; }
+        var open = screen.querySelector(".term.menu:not([hidden])");
+        var lines = open.textContent.split("\n");
+        for (var r = 0; r < lines.length; r++) {
+          var it = item(r, Array.from(lines[r]).indexOf("│") + 1);
+          if (it.key && (it.key === e.key || (it.key === "Tab" && e.key === "Tab"))) { choose(it); return; }
+        }
+        return;
+      }
       var k = ORDER.indexOf(current), n = e.key === "ArrowDown" ? k + 1 : e.key === "ArrowUp" ? k - 1 : -1;
       if (n < 0 || n >= ORDER.length || (e.key !== "ArrowDown" && e.key !== "ArrowUp")) return;
       e.preventDefault();
       act({ go: ORDER[n] });
-      place({ r: 3 + 2 * n, c: 1, w: 28, h: 2 });
     });
   }
 
