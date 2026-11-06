@@ -285,15 +285,18 @@
   }
 
   // --- copy buttons
-  document.querySelectorAll(".copy").forEach(function (b) {
+  // (the closing line's button copies the same line; where the clipboard is out of reach it shows the line instead)
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    var label = b.textContent;
     b.addEventListener("click", function () {
       var el = document.getElementById(b.getAttribute("data-copy"));
       var text = el.textContent.replace(/^\$\s*/, "");
-      if (!navigator.clipboard) return;
+      var show = function () { el.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "center" }); };
+      if (!navigator.clipboard) return b.classList.contains("copy") ? undefined : show();
       navigator.clipboard.writeText(text).then(function () {
         b.textContent = "Copied";
-        setTimeout(function () { b.textContent = "Copy"; }, 1600);
-      }, function () {});
+        setTimeout(function () { b.textContent = label; }, 1600);
+      }, function () { if (!b.classList.contains("copy")) show(); });
     });
   });
 })();

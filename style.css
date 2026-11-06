@@ -72,10 +72,20 @@ main > section, .foot { width: var(--width); margin-inline: auto; }
 
 /* --- hero ------------------------------------------------------------------------------------------------ */
 .hero { padding-top: clamp(52px, 8vw, 104px); }
+/* the film's end card, kept still at the top: the wordmark, its underline, the chair's full name */
+.hero-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: end; gap: 28px clamp(36px, 5vw, 80px);
+             margin-bottom: clamp(40px, 5vw, 64px); }
+.lockup { display: inline-block; }
+.lockup .word { margin: 0 0 0 -.08em; font: italic 400 clamp(4.4rem, 15vw, 11rem)/.9 "Archivo Black", sans-serif; letter-spacing: .01em;
+  padding: .04em .2em 0 .1em; background: linear-gradient(90deg, var(--coral) 8%, var(--peach) 92%); -webkit-background-clip: text;
+  background-clip: text; color: transparent; filter: drop-shadow(0 0 40px rgba(217, 119, 87, .22)); }
+.lockup .word::after { content: ""; display: block; height: clamp(4px, .45vw, 6px); margin: .12em -.04em 0 -.06em; background: #a8553a; }
+.tagline { margin: 16px 0 0; display: flex; align-items: center; gap: 12px;
+           font: 400 clamp(.85rem, 1.4vw, 1rem)/1 var(--mono); color: #9a9a9a; }
 h1 {
-  margin: 0 0 .5em; max-width: 13.5ch; text-wrap: balance;
+  margin: 0 0 calc(1rem + 2px); max-width: 13.5ch; text-wrap: balance;
   font-weight: 800; font-stretch: 118%;
-  font-size: clamp(2.45rem, 6.2vw, 5.3rem); line-height: .97; letter-spacing: -.025em; color: #fff;
+  font-size: clamp(2.3rem, 3.9vw, 3.7rem); line-height: 1; letter-spacing: -.022em; color: #fff;
 }
 .hero-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 640px); gap: 28px clamp(32px, 5vw, 72px);
             align-items: end; }
@@ -115,6 +125,12 @@ h1 {
 .term { margin: 0; padding: 0; font-family: var(--mono); line-height: 1.1640625; color: #d0d0d0;
                width: max-content; font-variant-ligatures: none; }
 .term { font-size: 1em; }
+/* a cell's background fills its line: the line boxes sit at fractional pixels and each span snaps on its own,
+   which left hairline seams through highlighted rows. 1px of overlap downwards closes them (downwards only: the next
+   line paints over it, text included, so no descender is covered); the bar characters are painted
+   as the full line (build.py marks them), since the font's glyphs stop short of it. */
+.term span:not(.nf) { padding-bottom: 1px; }
+.term .blk { -webkit-text-fill-color: transparent; background: linear-gradient(90deg, currentColor var(--f, 100%), transparent 0); }
 .term[hidden] { display: none; }
 /* Force's icons (the Nerd Font symbols `force fonts` installs), each in one cell like in the terminal */
 .term .nf { display: inline-block; width: var(--cw); font-family: "Force Symbols"; white-space: pre;
@@ -207,15 +223,13 @@ h3 { margin: 0 0 .45em; font-weight: 700; font-stretch: 110%; font-size: clamp(1
 .commands th code { font-size: .93rem; }
 .commands td { color: var(--soft); }
 
-.last { text-align: center; }
-/* the film's end card, kept still: the wordmark, its underline, the chair's full name; then the install line */
-.lockup { display: inline-block; }
-.lockup .word { font: italic 400 clamp(4.6rem, 17vw, 12.5rem)/1 "Archivo Black", sans-serif; letter-spacing: .01em;
-  padding: 0 .2em 0 .1em; background: linear-gradient(90deg, var(--coral) 8%, var(--peach) 92%); -webkit-background-clip: text;
-  background-clip: text; color: transparent; filter: drop-shadow(0 0 40px rgba(217, 119, 87, .22)); }
-.lockup .word::after { content: ""; display: block; height: clamp(4px, .45vw, 6px); margin: .1em -.04em 0 -.06em; background: #a8553a; }
-.tagline { margin: 18px 0 0; display: flex; justify-content: center; align-items: center; gap: 12px;
-           font: 400 clamp(.85rem, 1.4vw, 1rem)/1 var(--mono); color: #9a9a9a; }
+/* the closing line: the chair's own invitation, pointing back up at the one install line */
+.last { text-align: center; padding-top: clamp(40px, 6vw, 80px); }
+.last h2 { margin: 0; font: italic 400 clamp(2.6rem, 7vw, 5.2rem)/1 "Archivo Black", sans-serif; letter-spacing: .005em; color: #fff; }
+.last p { margin: 1.1em 0 0; color: var(--soft); }
+.copy-link { font: inherit; color: var(--peach); background: none; border: 0; padding: 0; cursor: pointer;
+             text-decoration: underline; text-underline-offset: 3px; }
+.copy-link:hover { color: #fff; }
 
 .foot { margin-top: clamp(110px, 13vw, 170px); padding: 28px 0 52px; border-top: 1px solid var(--rule);
         color: var(--dim); font-size: .86rem; }
@@ -224,11 +238,13 @@ h3 { margin: 0 0 .45em; font-weight: 700; font-stretch: 110%; font-size: clamp(1
 
 /* --- one entrance: the headline, then the words (the window stands still) ----------------------------------------- */
 .rise { animation: rise .9s var(--ease) both; }
-.hero-row.rise { animation-delay: .12s; }
+h1.rise { animation-delay: .08s; }
+.hero-row.rise { animation-delay: .16s; }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
 
 @media (max-width: 900px) {
-  .hero-row, .commands { grid-template-columns: minmax(0, 1fr); }
+  .hero-row, .hero-head, .commands { grid-template-columns: minmax(0, 1fr); }
+  .hero-head h1 { margin-bottom: 0; }
   .facts dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cmd-head { position: static; }
 }
