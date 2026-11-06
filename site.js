@@ -220,32 +220,67 @@
     setInterval(function () { if (!document.hidden) step(); }, 125);
   }
 
-  // --- the film
+  // --- the film: it plays over the window and ends on it (its last frame is this window, drawn at 1200 px), then
+  // fades and leaves the window live; Replay runs it again. With reduced motion, or when the browser will not play
+  // it, the window is live from the start.
+  var stage = document.getElementById("film");
   var film = document.getElementById("film-video");
   var btn = document.querySelector(".play");
-  if (film && btn) {
+  var replay = document.querySelector(".replay");
+  var win = document.getElementById("cockpit");
+  if (stage && film && btn && replay && win) {
+    var NOTE = { film: "When the film ends, the window stays: click around in it.",
+                 live: "Click around. Every session in the sidebar opens, so do the counts at the top, and the keyboard icon opens the menu." };
+    var fitStage = function () {   // the window's 1200 px layout scaled to the stage; too small to read: .narrow
+      var k = stage.clientWidth / 1200;
+      stage.style.setProperty("--k", k);
+      stage.classList.toggle("narrow", 13.2647 * k < 9.5);
+    };
+    if ("ResizeObserver" in window) new ResizeObserver(fitStage).observe(stage); else window.addEventListener("resize", fitStage);
+    fitStage();
+    var cue = hint && hint.textContent;
+    var live = function (on) {
+      stage.classList.toggle("live", on);
+      win.inert = !on;
+      film.setAttribute("aria-hidden", on ? "true" : "false");
+      btn.hidden = on;
+      replay.hidden = !on;
+      if (hint) hint.textContent = on ? NOTE.live : NOTE.film;
+      if (on && call) { call.style.animation = "none"; void call.offsetWidth; call.style.animation = ""; }   // the call starts afresh
+    };
     var wanted = !still;           // the visitor's choice; the observer only plays while it is in view
     var sync = function () {
       var paused = film.paused;
       btn.classList.toggle("paused", paused);
       btn.setAttribute("aria-label", paused ? "Play the film" : "Pause the film");
     };
-    var play = function () { var p = film.play(); if (p && p.catch) p.catch(function () { wanted = false; sync(); }); };
+    var play = function () { var p = film.play(); if (p && p.catch) p.catch(function () { wanted = false; sync(); live(true); }); };
     film.addEventListener("play", sync);
     film.addEventListener("pause", sync);
+    film.addEventListener("ended", function () { wanted = false; live(true); });
     btn.addEventListener("click", function () {
       wanted = film.paused;
       if (wanted) play(); else film.pause();
     });
     film.addEventListener("click", function () { btn.click(); });
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (es) {
-        es.forEach(function (e) {
-          if (e.isIntersecting && wanted) { film.preload = "auto"; play(); }
-          else if (!e.isIntersecting) film.pause();
-        });
-      }, { threshold: 0.35 }).observe(film);
-    } else if (wanted) play();
+    replay.addEventListener("click", function () {
+      live(false);
+      film.currentTime = 0;
+      wanted = true;
+      play();
+    });
+    if (still) { live(true); replay.innerHTML = '<span aria-hidden="true">▶</span> Play the film'; }
+    else {
+      live(false);
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting && wanted && !stage.classList.contains("live")) play();
+            else if (!e.isIntersecting && !film.paused) film.pause();
+          });
+        }, { threshold: 0.35 }).observe(stage);
+      } else play();
+    }
     sync();
   }
 
