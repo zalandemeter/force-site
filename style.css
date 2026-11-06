@@ -106,28 +106,29 @@ h1 {
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06); }
 .chrome b { font-weight: 600; letter-spacing: .01em; }
 .chrome .ctl { justify-self: end; color: #7c7c7c; font-size: .78rem; }
-.term-wrap { overflow-x: auto; background: var(--term); border-radius: 0 0 11px 11px;
+.term-wrap { overflow-x: auto; scrollbar-width: none; background: var(--term); border-radius: 0 0 11px 11px;
              box-shadow: 0 0 0 1px rgba(255, 255, 255, .07), 0 60px 120px -30px rgba(0, 0, 0, .85); }
+.term-wrap::-webkit-scrollbar { display: none; }   /* narrow screens swipe it; no bar under the window */
 .window .chrome { box-shadow: 0 0 0 1px rgba(255, 255, 255, .07), inset 0 1px 0 rgba(255, 255, 255, .06); }
 .screen { position: relative; width: max-content;
           font-size: clamp(9.5px, calc((min(1200px, 100vw - 2 * var(--gutter)) - 2px) / 150 / .6021), 13.3px); }
-.term, .frag { margin: 0; padding: 0; font-family: var(--mono); line-height: 1.1640625; color: #d0d0d0;
+.term { margin: 0; padding: 0; font-family: var(--mono); line-height: 1.1640625; color: #d0d0d0;
                width: max-content; font-variant-ligatures: none; }
 .term { font-size: 1em; }
 .term[hidden] { display: none; }
 /* Force's icons (the Nerd Font symbols `force fonts` installs), each in one cell like in the terminal */
-.term .nf, .frag .nf { display: inline-block; width: var(--cw); font-family: "Force Symbols"; white-space: pre;
+.term .nf { display: inline-block; width: var(--cw); font-family: "Force Symbols"; white-space: pre;
                        vertical-align: top; position: relative; z-index: 1; }
 
-/* the clickable places of the screen, laid over its cells */
-.hit { position: absolute; z-index: 2; top: calc(var(--r) * var(--lh)); left: calc(var(--c) * var(--cw));
-       width: calc(var(--w) * var(--cw)); height: calc(var(--h) * var(--lh));
-       padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 3px; font-size: inherit; }
-.screen[data-screen="billing"] .hit[data-only="api"] { display: none; }
-.hit:hover { background: rgba(255, 255, 255, .045); }
-.hit:focus-visible { outline-offset: 0; }
-.hit.call { animation: call 2.4s var(--ease) 1.6s infinite; }
-.hit.call.seen { animation: none; }
+/* the place under the pointer (or the keyboard's session), and the gentle call on the session that needs you */
+.ring, .call { position: absolute; z-index: 2; pointer-events: none; border-radius: 4px; opacity: 0;
+               transition: opacity .18s, top .18s var(--ease), left .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
+.ring { background: rgba(255, 255, 255, .05); box-shadow: inset 0 0 0 1px rgba(246, 194, 164, .45); }
+.ring.on { opacity: 1; }
+.screen.pointing { cursor: pointer; }
+.call { top: calc(7 * var(--lh)); left: var(--cw); width: calc(28 * var(--cw)); height: calc(2 * var(--lh));
+        animation: call 2.4s var(--ease) 1.6s infinite; opacity: 1; }
+.call.done { display: none; }
 @keyframes call {
   0%   { box-shadow: 0 0 0 0 rgba(240, 100, 94, .0); }
   25%  { box-shadow: 0 0 0 1px rgba(240, 100, 94, .75), 0 0 18px rgba(240, 100, 94, .25); }
@@ -138,8 +139,6 @@ h1 {
                      gap: 12px 32px; margin-top: 22px; }
 .hint { margin: 0; color: var(--soft); font-size: .95rem; }
 .hint b { font: 700 .92em var(--mono); color: #fff; }
-.hint b.g-need { color: #f0645e; }
-.hint [hidden] { display: none; }
 .legend { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 0; padding: 0; color: var(--dim); font-size: .88rem; }
 .legend div { display: flex; gap: 8px; align-items: baseline; }
 .legend dt { font-family: var(--mono); }
@@ -155,11 +154,6 @@ h2 { margin: 0; font-weight: 750; font-stretch: 114%; font-size: clamp(1.85rem, 
 h3 { margin: 0 0 .45em; font-weight: 700; font-stretch: 110%; font-size: clamp(1.25rem, 1.9vw, 1.5rem);
      line-height: 1.15; letter-spacing: -.01em; color: #fff; }
 
-/* title left, words right */
-.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px clamp(32px, 6vw, 96px);
-         align-items: end; }
-.split p { margin: 0; color: var(--soft); max-width: 50ch; }
-
 .stage { position: relative; margin: clamp(36px, 5vw, 56px) 0 0; aspect-ratio: 16 / 9; border-radius: 14px;
          overflow: hidden; background: #000;
          box-shadow: 0 0 0 1px var(--rule), 0 50px 140px rgba(0, 0, 0, .7); }
@@ -173,21 +167,19 @@ h3 { margin: 0 0 .45em; font-weight: 700; font-stretch: 110%; font-size: clamp(1
 .play.paused span { width: 0; height: 0; border: 0; margin-left: 15px;
                     border-left: 12px solid #eee; border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
 
-/* features: a sentence and the piece of Force that shows it */
-.features > h2 { margin-bottom: clamp(36px, 5vw, 64px); }
-.feature { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 28px clamp(32px, 6vw, 96px);
-           align-items: center; padding: clamp(36px, 4.5vw, 56px) 0; border-top: 1px solid var(--rule); }
-.feature p { margin: 0; color: var(--soft); max-width: 44ch; }
-.plate { display: grid; place-items: center; min-height: 300px; padding: 36px 24px; border-radius: 14px; overflow: hidden;
-         background: var(--term);
-         box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06), 0 30px 60px -30px rgba(0, 0, 0, .8); }
-.frag { font-size: clamp(11.5px, 1.5vw, 18px); }
-.frag.big { font-size: clamp(16px, 2.6vw, 32px); }
+/* the film: wide, nothing around it */
+.film { width: min(1440px, 100% - 2 * var(--gutter)) !important; }
+.film .stage { margin-top: 0; }
 
-.more { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px clamp(24px, 4vw, 56px); margin: 0;
-        padding-top: clamp(36px, 4.5vw, 56px); border-top: 1px solid var(--rule); }
-.more dt { font-weight: 700; font-stretch: 108%; font-size: 1.05rem; color: #fff; margin-bottom: .35em; }
-.more dd { margin: 0; color: var(--soft); font-size: .98rem; }
+/* six facts: a state glyph, a name, one sentence */
+.facts h2 { font-size: clamp(2.1rem, 4.6vw, 3.7rem); max-width: 14ch; }
+.facts dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 56px);
+            margin: clamp(40px, 5vw, 64px) 0 0; }
+.facts dl > div { padding: 26px 0 34px; border-top: 1px solid var(--rule); }
+.facts dt { font-weight: 700; font-stretch: 108%; font-size: 1.12rem; color: #fff; margin-bottom: .45em;
+            display: flex; align-items: baseline; gap: .6em; }
+.facts dt span { font: 700 1.05rem var(--mono); width: 1ch; }
+.facts dd { margin: 0; color: var(--soft); max-width: 40ch; }
 
 /* commands: heading left, the list right */
 .commands { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 32px clamp(32px, 6vw, 96px);
@@ -211,17 +203,15 @@ h3 { margin: 0 0 .45em; font-weight: 700; font-stretch: 110%; font-size: clamp(1
 .foot .name { color: var(--soft); margin-bottom: .5em; display: flex; align-items: center; gap: 10px; }
 .chip { background: var(--coral); color: var(--floor); font: 700 .78rem/1 var(--mono); padding: 4px 6px; }
 
-/* --- one entrance: the headline, then the words, then the window ----------------------------------------- */
+/* --- one entrance: the headline, then the words (the window stands still) ----------------------------------------- */
 .rise { animation: rise .9s var(--ease) both; }
 .hero-row.rise { animation-delay: .12s; }
-.window.rise { animation-duration: 1.2s; animation-delay: .26s; }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
 
 @media (max-width: 900px) {
-  .hero-row, .split, .feature, .commands { grid-template-columns: minmax(0, 1fr); }
+  .hero-row, .commands { grid-template-columns: minmax(0, 1fr); }
+  .facts dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cmd-head { position: static; }
-  .more { grid-template-columns: minmax(0, 1fr); }
-  .plate { min-height: 0; }
 }
 @media (max-width: 640px) {
   .top nav a:not(.nav-install) { display: none; }
@@ -229,8 +219,10 @@ h3 { margin: 0 0 .45em; font-weight: 700; font-stretch: 110%; font-size: clamp(1
   .install code { white-space: normal; overflow-wrap: anywhere; }
   .window figcaption { margin-top: 16px; }
   .chrome .ctl { display: none; }
+  .facts dl { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .rise, .hit.call { animation: none; }
+  .rise, .call { animation: none; }
+  .ring { transition: none; }
 }
