@@ -149,6 +149,77 @@
     });
   }
 
+  // --- what moves in Force: a working session's pie fills in 8 steps of 125 ms (sidebar and header count, every
+  // screen); in mobile's pane the agent's spinner turns, its verb shimmers, the running tool's dot blinks and the
+  // timers and token count go up. The captures are still, so the page plays these on top of them.
+  var live = document.querySelectorAll(".screen .term[data-view]");
+  if (live.length) {
+    var PIE = 0xF0A9E, STAR = "·✢✳✶✻✽", STARS = STAR + STAR.split("").reverse().join("");
+    var pies = [], stars = [], dots = [], clocks = [], shimmer = [];
+    // a cell's text changed length: keep the line 150 cells by taking spaces from (or giving them to) its end
+    var fit = function (el, delta) {
+      for (var n = el.nextSibling; n; n = n.nextSibling) {
+        if (n.nodeType === 3 && n.nodeValue.indexOf("\n") >= 0) {
+          var v = n.nodeValue, i = v.indexOf("\n");
+          n.nodeValue = delta > 0 ? v.slice(0, Math.max(0, i - delta)) + v.slice(i)
+                                  : v.slice(0, i) + new Array(1 - delta).join(" ") + v.slice(i);
+          return;
+        }
+      }
+    };
+    var dur = function (s) {
+      var h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = s % 60;
+      return h ? h + "h " + m + "m " + x + "s" : m ? m + "m " + x + "s" : x + "s";
+    };
+    live.forEach(function (pre) {
+      pre.querySelectorAll(".nf").forEach(function (el) {
+        var c = el.textContent.codePointAt(0);
+        if (c >= PIE && c < PIE + 8) pies.push(el);
+      });
+      pre.querySelectorAll("span").forEach(function (el) {
+        var t = el.textContent, next = el.nextElementSibling;
+        if (t.length === 1 && STAR.indexOf(t) >= 0 && next && /^\S+…$/.test(next.textContent)) {
+          stars.push(el);
+          var verb = next.textContent;   // the verb, one span per letter for the shimmer
+          next.textContent = "";
+          var letters = Array.from(verb).map(function (ch) {
+            var s = document.createElement("span"); s.textContent = ch; next.appendChild(s); return s;
+          });
+          shimmer.push(letters);
+        }
+        if (t === "●" && el.nextSibling && /^ Running/.test(el.nextSibling.nodeValue || "")) dots.push(el);
+        if (!el.children.length && /\b(\d+h )?(\d+m )?\d+s\b/.test(t) && pre.dataset.view === "mobile") {
+          var m = /\b(?:(\d+)h )?(?:(\d+)m )?(\d+)s\b/.exec(t);
+          clocks.push({ el: el, at: (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3]) });
+        }
+        if (/^\d+ tokens\)$/.test(t)) clocks.push({ el: el, tokens: parseInt(t, 10) });
+      });
+    });
+    var t0 = Date.now(), tick = 0;
+    var step = function () {
+      var ms = Date.now() - t0, s = Math.floor(ms / 1000);
+      if (!still) {
+        tick++;
+        var pie = String.fromCodePoint(PIE + tick % 8);
+        pies.forEach(function (el) { el.textContent = pie; });
+        var star = STARS[tick % STARS.length];
+        stars.forEach(function (el) { el.textContent = star; });
+        shimmer.forEach(function (letters) {   // a lighter band sweeps across the verb and off its end
+          var at = tick % (letters.length + 6) - 1;
+          letters.forEach(function (l, i) { l.style.color = Math.abs(i - at) <= 1 ? "#ffd7af" : ""; });
+        });
+        dots.forEach(function (el) { el.style.visibility = Math.floor(ms / 600) % 2 ? "hidden" : ""; });
+      }
+      clocks.forEach(function (c) {
+        var old = c.el.textContent, now = c.tokens != null
+          ? (c.tokens + Math.floor(ms / 1000 * 2.7)) + " tokens)"
+          : old.replace(/\b(?:\d+h )?(?:\d+m )?\d+s\b/, dur(c.at + s));
+        if (now !== old) { c.el.textContent = now; fit(c.el, now.length - old.length); }
+      });
+    };
+    setInterval(function () { if (!document.hidden) step(); }, 125);
+  }
+
   // --- the film
   var film = document.getElementById("film-video");
   var btn = document.querySelector(".play");
